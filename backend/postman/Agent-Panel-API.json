@@ -1,0 +1,56 @@
+{
+  "info": { "name": "Agent Panel API", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json" },
+  "variable": [{ "key": "baseUrl", "value": "http://localhost:3000" }, { "key": "token", "value": "" }],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        { "name": "Login", "request": { "method": "POST", "url": "{{baseUrl}}/api/auth/login", "body": { "mode": "raw", "raw": "{\n  \"email\": \"agent@example.com\",\n  \"password\": \"agent123\"\n}" } } },
+        { "name": "Forgot Password", "request": { "method": "POST", "url": "{{baseUrl}}/api/auth/forgot-password", "body": { "mode": "raw", "raw": "{\n  \"email\": \"agent@example.com\"\n}" } } },
+        { "name": "Me", "request": { "method": "GET", "url": "{{baseUrl}}/api/auth/me", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Change Password", "request": { "method": "PATCH", "url": "{{baseUrl}}/api/auth/change-password", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "body": { "mode": "raw", "raw": "{\n  \"currentPassword\": \"agent123\",\n  \"newPassword\": \"agent456\"\n}" } } }
+      ]
+    },
+    {
+      "name": "Agents",
+      "item": [
+        { "name": "Dashboard", "request": { "method": "GET", "url": "{{baseUrl}}/api/agents/dashboard", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Get Profile", "request": { "method": "GET", "url": "{{baseUrl}}/api/agents/profile", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Update Profile", "request": { "method": "PATCH", "url": "{{baseUrl}}/api/agents/profile", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "body": { "mode": "raw", "raw": "{\n  \"name\": \"Updated Agent Name\"\n}" } } }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        { "name": "List Users", "request": { "method": "GET", "url": "{{baseUrl}}/api/users?page=1&limit=10", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Create User", "request": { "method": "POST", "url": "{{baseUrl}}/api/users", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "body": { "mode": "raw", "raw": "{\n  \"name\": \"New Player\",\n  \"email\": \"newplayer@example.com\"\n}" } } },
+        { "name": "Get User", "request": { "method": "GET", "url": "{{baseUrl}}/api/users/:id", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Block User", "request": { "method": "PATCH", "url": "{{baseUrl}}/api/users/:id/block", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "Unblock User", "request": { "method": "PATCH", "url": "{{baseUrl}}/api/users/:id/unblock", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Commissions",
+      "item": [
+        { "name": "Create Commission", "request": { "method": "POST", "url": "{{baseUrl}}/api/commissions", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "body": { "mode": "raw", "raw": "{\n  \"userId\": \"<userId>\",\n  \"wagerAmount\": 100,\n  \"date\": \"2024-06-01\"\n}" } } },
+        { "name": "History (JSON)", "request": { "method": "GET", "url": "{{baseUrl}}/api/commissions/history", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } },
+        { "name": "History (CSV)", "request": { "method": "GET", "url": "{{baseUrl}}/api/commissions/history?format=csv", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Withdrawals",
+      "item": [
+        { "name": "Request", "request": { "method": "POST", "url": "{{baseUrl}}/api/withdrawals", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "body": { "mode": "raw", "raw": "{\n  \"amount\": 10\n}" } } },
+        { "name": "List", "request": { "method": "GET", "url": "{{baseUrl}}/api/withdrawals", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }] } }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        { "name": "Approve Withdrawal", "request": { "method": "PATCH", "url": "{{baseUrl}}/api/admin/withdrawals/:id/approve", "header": [{ "key": "X-Admin-Key", "value": "{{adminKey}}" }] } },
+        { "name": "Reject Withdrawal", "request": { "method": "PATCH", "url": "{{baseUrl}}/api/admin/withdrawals/:id/reject", "header": [{ "key": "X-Admin-Key", "value": "{{adminKey}}" }] } }
+      ]
+    },
+    { "name": "Health", "request": { "method": "GET", "url": "{{baseUrl}}/health" } }
+  ]
+}

@@ -1,0 +1,129 @@
+// ---------------------------------------------------------------------------
+// Generator: Prisma Client for Node.js
+// ---------------------------------------------------------------------------
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+// ---------------------------------------------------------------------------
+// Datasource: MongoDB
+// ---------------------------------------------------------------------------
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum AgentStatus {
+  ACTIVE
+  BLOCKED
+}
+
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+}
+
+enum WithdrawalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// ---------------------------------------------------------------------------
+// Models
+// ---------------------------------------------------------------------------
+
+model Agent {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String   @unique
+  password  String
+  status    AgentStatus @default(ACTIVE)
+  createdAt DateTime @default(now())
+
+  users        User[]
+  commissions  Commission[]
+  withdrawals  Withdrawal[]
+
+  @@index([status])
+}
+
+model User {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  agentId   String     @db.ObjectId
+  name      String
+  email     String
+  status    UserStatus @default(ACTIVE)
+  createdAt DateTime   @default(now())
+
+  agent       Agent        @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  commissions Commission[]
+
+  @@unique([agentId, email])
+  @@index([agentId])
+  @@index([status])
+  @@index([agentId, status])
+}
+
+model Commission {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  agentId   String   @db.ObjectId
+  userId    String   @db.ObjectId
+  amount    Float
+  date      DateTime
+  createdAt DateTime @default(now())
+
+  agent Agent @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([agentId])
+  @@index([userId])
+  @@index([date])
+  @@index([createdAt])
+  @@index([agentId, date])
+  @@index([agentId, createdAt])
+}
+
+model Withdrawal {
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  agentId   String           @db.ObjectId
+  amount    Float
+  status    WithdrawalStatus @default(PENDING)
+  createdAt DateTime         @default(now())
+
+  agent Agent @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@index([agentId])
+  @@index([status])
+  @@index([createdAt])
+  @@index([agentId, status])
+}
+
+// Audit log for key actions (meets "minimum 6 tables" requirement)
+model AuditLog {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  agentId   String   @db.ObjectId
+  action    String
+  entity    String?
+  entityId  String?
+  createdAt DateTime @default(now())
+
+  @@index([agentId])
+  @@index([createdAt])
+}
+
+// Agent session / login tracking (meets "minimum 6 tables" requirement)
+model AgentSession {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  agentId   String   @db.ObjectId
+  loginAt   DateTime @default(now())
+  ip        String?
+
+  @@index([agentId])
+  @@index([loginAt])
+}
