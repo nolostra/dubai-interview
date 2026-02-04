@@ -1,5 +1,7 @@
-import { WithdrawalStatus } from '@prisma/client';
+import { Prisma, WithdrawalStatus } from '@prisma/client';
 import { prisma } from '../../config/db';
+
+type TransactionClient = Omit<Prisma.TransactionClient, symbol>;
 
 function toNumber(value: unknown): number {
   if (value == null) return 0;
@@ -65,7 +67,7 @@ export const withdrawalService = {
 
     const roundedAmount = roundAmount(amount);
 
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: TransactionClient) => {
       const [commissionSum, approvedSum] = await Promise.all([
         tx.commission.aggregate({
           where: { agentId },
@@ -122,7 +124,7 @@ export const withdrawalService = {
         createdAt: true,
       },
     });
-    return list.map((row) => ({
+    return list.map((row: { id: string; amount: unknown; status: WithdrawalStatus; createdAt: Date }) => ({
       id: row.id,
       amount: toNumber(row.amount),
       status: row.status,
@@ -134,7 +136,7 @@ export const withdrawalService = {
    * Admin: approve withdrawal. Validates balance in transaction, then updates status.
    */
   async approveWithdrawal(withdrawalId: string): Promise<RequestWithdrawalResult> {
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: TransactionClient) => {
       const withdrawal = await tx.withdrawal.findUnique({
         where: { id: withdrawalId },
       });

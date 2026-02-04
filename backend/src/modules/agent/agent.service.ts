@@ -56,7 +56,7 @@ export const agentService = {
     const pendingCommission = Math.max(0, totalCommissionEarned - totalApprovedWithdrawals);
     const withdrawableBalance = pendingCommission;
 
-    const last7DaysEarnings: { date: string; amount: number }[] = last7DaysGrouped.map((row) => ({
+    const last7DaysEarnings: { date: string; amount: number }[] = last7DaysGrouped.map((row: { date: Date; _sum: { amount: unknown } }) => ({
       date: (row.date instanceof Date ? row.date : new Date(row.date)).toISOString().slice(0, 10),
       amount: toNumber(row._sum.amount),
     }));

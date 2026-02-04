@@ -173,7 +173,6 @@ export default function Dashboard() {
   const maxEarnings = Math.max(...earnings.map((e) => e.amount), 1)
   const chartHeight = 140
   const barWidth = 36
-  const gap = 12
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -230,7 +229,7 @@ export default function Dashboard() {
               <p className="text-sm text-slate-500">No earnings in the last 7 days.</p>
             ) : (
               <div className="flex items-end gap-3" style={{ minHeight: chartHeight + 32 }}>
-                {earnings.map((e, i) => (
+                {earnings.map((e) => (
                   <div key={e.date} className="flex flex-col items-center flex-1 min-w-0">
                     <span className="text-xs font-medium text-slate-600 mb-1">${e.amount.toFixed(0)}</span>
                     <div

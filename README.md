@@ -1,16 +1,12 @@
-# Interview — Agent Panel MVP
+# dubai-interview — Interview · Agent Panel MVP
 
-Monorepo for a small **Agent Panel** MVP: backend API (Node.js + Express + Prisma + MongoDB) and frontend dashboard (React + Vite + Tailwind).
-
----
+Monorepo for a small Agent Panel MVP: **backend API** (Node.js + Express + Prisma + MongoDB) and **frontend dashboard** (React + Vite + Tailwind).
 
 ## Prerequisites
 
-- **Node.js** (v18+)
-- **MongoDB** (local or [Atlas](https://www.mongodb.com/atlas))
-- **npm** or **pnpm**
-
----
+- Node.js (v18+)
+- MongoDB (local or [Atlas](https://www.mongodb.com/cloud/atlas))
+- npm or pnpm
 
 ## Quick start
 
@@ -20,7 +16,11 @@ Monorepo for a small **Agent Panel** MVP: backend API (Node.js + Express + Prism
 cd backend
 npm install
 cp .env.example .env
-# Edit .env: set DATABASE_URL, JWT_SECRET, (optional) ADMIN_API_KEY
+```
+
+Edit `.env`: set `DATABASE_URL`, `JWT_SECRET`, and (optional) `ADMIN_API_KEY`.
+
+```bash
 npm run prisma:generate
 npx prisma db push
 npm run prisma:seed
@@ -34,7 +34,11 @@ Backend runs at **http://localhost:3000**.
 ```bash
 cd frontend
 npm install
-# Optional: create .env with VITE_API_URL=http://localhost:3000/api
+```
+
+Optional: create `.env` with `VITE_API_URL=http://localhost:3000/api`.
+
+```bash
 npm run dev
 ```
 
@@ -42,57 +46,16 @@ Frontend runs at **http://localhost:5173**.
 
 ### 3. Log in
 
-- **Email:** `agent@example.com`  
-- **Password:** `agent123`  
-
-(Seeded by `npm run prisma:seed` in the backend.)
+Use **agent@example.com** / **agent123** (from seed) to log in and open the dashboard.
 
 ---
 
-## Project layout
+## Deploying the frontend to GitHub Pages
 
-| Folder      | Stack                          | Description                                      |
-|------------|---------------------------------|--------------------------------------------------|
-| **backend/**  | Node.js, Express, TypeScript, Prisma, MongoDB, JWT, bcrypt | REST API: auth, dashboard, users, commissions, withdrawals |
-| **frontend/** | React, Vite, Tailwind, React Router           | Login, dashboard, users, commissions, withdrawals, settings |
+**If you see this README on the live site** (`nolostra.github.io/dubai-interview/`), GitHub Pages is still set to deploy from a branch. To serve the **React app** instead:
 
----
+1. On GitHub, open your repo → **Settings** → **Pages**.
+2. Under **Build and deployment**, set **Source** to **GitHub Actions** (not “Deploy from a branch”).
+3. Push to `main` or run the workflow **Deploy Frontend to GitHub Pages** manually. The workflow builds the frontend and deploys it; the live site will then show the Agent Panel.
 
-## Environment
-
-### Backend (`backend/.env`)
-
-| Variable        | Description                                      |
-|----------------|--------------------------------------------------|
-| `DATABASE_URL` | MongoDB connection string (e.g. `mongodb://localhost:27017/interview_db`) |
-| `JWT_SECRET`   | Secret for signing JWTs                          |
-| `JWT_EXPIRES_IN` | Token expiry (default `7d`)                    |
-| `ADMIN_API_KEY` | Optional; for admin approve/reject withdrawals (`X-Admin-Key` header) |
-
-### Frontend (`frontend/.env`)
-
-| Variable        | Description                                      |
-|----------------|--------------------------------------------------|
-| `VITE_API_URL` | Backend API base (default `http://localhost:3000/api`) |
-
----
-
-## More details
-
-- **Backend API & setup:** [backend/README.md](backend/README.md)  
-- **Frontend setup:** [frontend/README.md](frontend/README.md)  
-- **Task status & API list:** [AGENT_PANEL_STATUS.md](AGENT_PANEL_STATUS.md)
-
----
-
-## One-liner (after env is set)
-
-```bash
-# Terminal 1
-cd backend && npm install && npm run prisma:generate && npx prisma db push && npm run prisma:seed && npm run dev
-
-# Terminal 2
-cd frontend && npm install && npm run dev
-```
-
-Then open http://localhost:5173 and log in with `agent@example.com` / `agent123`.
+The workflow file is `.github/workflows/deploy-frontend-pages.yml`.
