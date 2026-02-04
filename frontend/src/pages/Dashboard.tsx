@@ -160,10 +160,10 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-slate-500">Loading dashboard...</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Loading dashboard...</p>
         </div>
       </div>
     )
@@ -175,14 +175,14 @@ export default function Dashboard() {
   const barWidth = 36
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <header className="bg-white border-b border-slate-200 px-4 py-3 flex justify-between items-center shadow-card">
-        <h1 className="text-lg font-semibold text-slate-900">Agent Dashboard</h1>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+      <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 px-4 py-3 flex justify-between items-center shadow-card">
+        <h1 className="text-lg font-semibold text-slate-900 dark:text-white">Agent Dashboard</h1>
         <nav className="flex gap-2 items-center">
           <button type="button" onClick={() => navigate('/settings')} className="btn-ghost">
             Settings
           </button>
-          <button type="button" onClick={handleLogout} className="btn-ghost text-slate-600">
+          <button type="button" onClick={handleLogout} className="btn-ghost text-slate-600 dark:text-slate-400">
             Logout
           </button>
         </nav>
@@ -190,9 +190,9 @@ export default function Dashboard() {
 
       <main className="p-6 max-w-6xl mx-auto space-y-8">
         {error && (
-          <div className="rounded-lg bg-red-50 border border-red-100 px-4 py-3 text-sm text-red-700 flex justify-between items-center">
+          <div className="rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-100 dark:border-red-800 px-4 py-3 text-sm text-red-700 dark:text-red-300 flex justify-between items-center">
             <span>{error}</span>
-            <button type="button" onClick={() => setError('')} className="text-red-500 hover:text-red-700 font-medium">
+            <button type="button" onClick={() => setError('')} className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-200 font-medium">
               Dismiss
             </button>
           </div>
@@ -200,38 +200,38 @@ export default function Dashboard() {
 
         {/* KPI cards */}
         <section>
-          <h2 className="text-sm font-medium text-slate-500 uppercase tracking-wide mb-4">Overview</h2>
+          <h2 className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4">Overview</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="card p-5 hover:shadow-cardHover transition-shadow">
-              <p className="text-sm font-medium text-slate-500">Total Users</p>
-              <p className="mt-1 text-2xl font-bold text-slate-900">{dashboard?.totalUsers ?? 0}</p>
+              <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Total Users</p>
+              <p className="mt-1 text-2xl font-bold text-slate-900 dark:text-white">{dashboard?.totalUsers ?? 0}</p>
             </div>
             <div className="card p-5 hover:shadow-cardHover transition-shadow">
-              <p className="text-sm font-medium text-slate-500">Revenue Earned</p>
-              <p className="mt-1 text-2xl font-bold text-slate-900">${(dashboard?.totalCommissionEarned ?? 0).toFixed(2)}</p>
+              <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Revenue Earned</p>
+              <p className="mt-1 text-2xl font-bold text-slate-900 dark:text-white">${(dashboard?.totalCommissionEarned ?? 0).toFixed(2)}</p>
             </div>
             <div className="card p-5 hover:shadow-cardHover transition-shadow">
-              <p className="text-sm font-medium text-slate-500">Pending Commission</p>
-              <p className="mt-1 text-2xl font-bold text-slate-900">${(dashboard?.pendingCommission ?? 0).toFixed(2)}</p>
+              <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Pending Commission</p>
+              <p className="mt-1 text-2xl font-bold text-slate-900 dark:text-white">${(dashboard?.pendingCommission ?? 0).toFixed(2)}</p>
             </div>
-            <div className="card p-5 hover:shadow-cardHover transition-shadow border-primary-200 bg-primary-50/30">
-              <p className="text-sm font-medium text-primary-700">Withdrawable Balance</p>
-              <p className="mt-1 text-2xl font-bold text-primary-700">${(dashboard?.withdrawableBalance ?? 0).toFixed(2)}</p>
+            <div className="card p-5 hover:shadow-cardHover transition-shadow border-primary-200 dark:border-primary-800 bg-primary-50/30 dark:bg-primary-900/30">
+              <p className="text-sm font-medium text-primary-700 dark:text-primary-300">Withdrawable Balance</p>
+              <p className="mt-1 text-2xl font-bold text-primary-700 dark:text-primary-300">${(dashboard?.withdrawableBalance ?? 0).toFixed(2)}</p>
             </div>
           </div>
         </section>
 
         {/* Last 7 days earnings */}
         <section>
-          <h2 className="text-sm font-medium text-slate-500 uppercase tracking-wide mb-4">Last 7 Days Earnings</h2>
+          <h2 className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4">Last 7 Days Earnings</h2>
           <div className="card p-6">
             {earnings.length === 0 ? (
-              <p className="text-sm text-slate-500">No earnings in the last 7 days.</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">No earnings in the last 7 days.</p>
             ) : (
               <div className="flex items-end gap-3" style={{ minHeight: chartHeight + 32 }}>
                 {earnings.map((e) => (
                   <div key={e.date} className="flex flex-col items-center flex-1 min-w-0">
-                    <span className="text-xs font-medium text-slate-600 mb-1">${e.amount.toFixed(0)}</span>
+                    <span className="text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">${e.amount.toFixed(0)}</span>
                     <div
                       className="w-full rounded-t bg-primary-500 hover:bg-primary-600 transition-colors"
                       style={{
@@ -239,7 +239,7 @@ export default function Dashboard() {
                         minWidth: barWidth,
                       }}
                     />
-                    <span className="text-xs text-slate-500 mt-2 truncate w-full text-center">{e.date.slice(5)}</span>
+                    <span className="text-xs text-slate-500 dark:text-slate-400 mt-2 truncate w-full text-center">{e.date.slice(5)}</span>
                   </div>
                 ))}
               </div>
@@ -250,18 +250,18 @@ export default function Dashboard() {
         {/* Users */}
         <section>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-sm font-medium text-slate-500 uppercase tracking-wide">Users</h2>
+            <h2 className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">Users</h2>
             <button type="button" onClick={() => setAddUserOpen(true)} className="btn-primary text-sm py-1.5">
               Add User
             </button>
           </div>
           {addUserOpen && (
-            <div className="fixed inset-0 z-10 flex items-center justify-center p-4 bg-slate-900/50" onClick={() => setAddUserOpen(false)}>
+            <div className="fixed inset-0 z-10 flex items-center justify-center p-4 bg-slate-900/50 dark:bg-black/60" onClick={() => setAddUserOpen(false)}>
               <div className="card p-6 w-full max-w-md shadow-xl" onClick={(e) => e.stopPropagation()}>
-                <h3 className="text-lg font-semibold text-slate-900 mb-4">Add User</h3>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Add User</h3>
                 <form onSubmit={handleAddUser} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Name</label>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Name</label>
                     <input
                       value={addUserName}
                       onChange={(e) => setAddUserName(e.target.value)}
@@ -271,7 +271,7 @@ export default function Dashboard() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Email</label>
                     <input
                       type="email"
                       value={addUserEmail}
@@ -297,30 +297,30 @@ export default function Dashboard() {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="border-b border-slate-200 bg-slate-50/80">
-                    <th className="p-4 font-semibold text-slate-700">Email</th>
-                    <th className="p-4 font-semibold text-slate-700">Name</th>
-                    <th className="p-4 font-semibold text-slate-700">Status</th>
-                    <th className="p-4 font-semibold text-slate-700">Created</th>
-                    <th className="p-4 font-semibold text-slate-700">Actions</th>
+                  <tr className="border-b border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-800/80">
+                    <th className="p-4 font-semibold text-slate-700 dark:text-slate-300">Email</th>
+                    <th className="p-4 font-semibold text-slate-700 dark:text-slate-300">Name</th>
+                    <th className="p-4 font-semibold text-slate-700 dark:text-slate-300">Status</th>
+                    <th className="p-4 font-semibold text-slate-700 dark:text-slate-300">Created</th>
+                    <th className="p-4 font-semibold text-slate-700 dark:text-slate-300">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {users.map((u) => (
-                    <tr key={u.id} className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors">
-                      <td className="p-4 text-slate-800 font-medium">{u.email}</td>
-                      <td className="p-4 text-slate-800">{u.name}</td>
+                    <tr key={u.id} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+                      <td className="p-4 text-slate-800 dark:text-slate-200 font-medium">{u.email}</td>
+                      <td className="p-4 text-slate-800 dark:text-slate-200">{u.name}</td>
                       <td className="p-4">
                         <span className={u.status === 'ACTIVE' ? 'badge-success' : 'badge-danger'}>{u.status}</span>
                       </td>
-                      <td className="p-4 text-slate-500">{u.createdAt?.slice(0, 10)}</td>
+                      <td className="p-4 text-slate-500 dark:text-slate-400">{u.createdAt?.slice(0, 10)}</td>
                       <td className="p-4">
                         {u.status === 'ACTIVE' ? (
-                          <button type="button" onClick={() => handleBlockUnblock(u.id, true)} className="text-red-600 hover:text-red-700 text-sm font-medium">
+                          <button type="button" onClick={() => handleBlockUnblock(u.id, true)} className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium">
                             Block
                           </button>
                         ) : (
-                          <button type="button" onClick={() => handleBlockUnblock(u.id, false)} className="text-emerald-600 hover:text-emerald-700 text-sm font-medium">
+                          <button type="button" onClick={() => handleBlockUnblock(u.id, false)} className="text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 text-sm font-medium">
                             Unblock
                           </button>
                         )}
@@ -331,8 +331,8 @@ export default function Dashboard() {
               </table>
             </div>
             {totalUsers > usersLimit && (
-              <div className="p-4 flex items-center justify-between border-t border-slate-100 bg-slate-50/50">
-                <span className="text-sm text-slate-500">
+              <div className="p-4 flex items-center justify-between border-t border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50">
+                <span className="text-sm text-slate-500 dark:text-slate-400">
                   Page {usersPage} of {Math.ceil(totalUsers / usersLimit)}
                 </span>
                 <div className="flex gap-2">
@@ -361,7 +361,7 @@ export default function Dashboard() {
         {/* Commission history + CSV */}
         <section>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-sm font-medium text-slate-500 uppercase tracking-wide">Commission History</h2>
+            <h2 className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">Commission History</h2>
             <button type="button" onClick={handleExportCsv} className="btn-secondary text-sm py-1.5">
               Export CSV
             </button>
@@ -370,35 +370,35 @@ export default function Dashboard() {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="border-b border-slate-200 bg-slate-50/80">
-                    <th className="p-4 font-semibold text-slate-700">Date</th>
-                    <th className="p-4 font-semibold text-slate-700">Total Amount</th>
-                    <th className="p-4 font-semibold text-slate-700">Count</th>
+                  <tr className="border-b border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-800/80">
+                    <th className="p-4 font-semibold text-slate-700 dark:text-slate-300">Date</th>
+                    <th className="p-4 font-semibold text-slate-700 dark:text-slate-300">Total Amount</th>
+                    <th className="p-4 font-semibold text-slate-700 dark:text-slate-300">Count</th>
                   </tr>
                 </thead>
                 <tbody>
                   {commissionHistory.map((r) => (
-                    <tr key={r.date} className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors">
-                      <td className="p-4 text-slate-800 font-medium">{r.date}</td>
-                      <td className="p-4 text-slate-800">${r.totalAmount.toFixed(2)}</td>
-                      <td className="p-4 text-slate-500">{r.count}</td>
+                    <tr key={r.date} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+                      <td className="p-4 text-slate-800 dark:text-slate-200 font-medium">{r.date}</td>
+                      <td className="p-4 text-slate-800 dark:text-slate-200">${r.totalAmount.toFixed(2)}</td>
+                      <td className="p-4 text-slate-500 dark:text-slate-400">{r.count}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
             {commissionHistory.length === 0 && (
-              <p className="p-6 text-sm text-slate-500">No commission history.</p>
+              <p className="p-6 text-sm text-slate-500 dark:text-slate-400">No commission history.</p>
             )}
           </div>
         </section>
 
         {/* Withdrawals */}
         <section>
-          <h2 className="text-sm font-medium text-slate-500 uppercase tracking-wide mb-4">Withdrawals</h2>
+          <h2 className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4">Withdrawals</h2>
           <form onSubmit={handleRequestWithdrawal} className="flex flex-wrap gap-3 items-end mb-6">
             <div className="min-w-[140px]">
-              <label className="block text-sm font-medium text-slate-700 mb-1">Amount</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Amount</label>
               <input
                 type="number"
                 step="0.01"
@@ -417,16 +417,16 @@ export default function Dashboard() {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="border-b border-slate-200 bg-slate-50/80">
-                    <th className="p-4 font-semibold text-slate-700">Amount</th>
-                    <th className="p-4 font-semibold text-slate-700">Status</th>
-                    <th className="p-4 font-semibold text-slate-700">Created</th>
+                  <tr className="border-b border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-800/80">
+                    <th className="p-4 font-semibold text-slate-700 dark:text-slate-300">Amount</th>
+                    <th className="p-4 font-semibold text-slate-700 dark:text-slate-300">Status</th>
+                    <th className="p-4 font-semibold text-slate-700 dark:text-slate-300">Created</th>
                   </tr>
                 </thead>
                 <tbody>
                   {withdrawals.map((w) => (
-                    <tr key={w.id} className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors">
-                      <td className="p-4 text-slate-800 font-medium">${Number(w.amount).toFixed(2)}</td>
+                    <tr key={w.id} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+                      <td className="p-4 text-slate-800 dark:text-slate-200 font-medium">${Number(w.amount).toFixed(2)}</td>
                       <td className="p-4">
                         <span
                           className={
@@ -436,13 +436,13 @@ export default function Dashboard() {
                           {w.status}
                         </span>
                       </td>
-                      <td className="p-4 text-slate-500">{w.createdAt?.slice(0, 10)}</td>
+                      <td className="p-4 text-slate-500 dark:text-slate-400">{w.createdAt?.slice(0, 10)}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            {withdrawals.length === 0 && <p className="p-6 text-sm text-slate-500">No withdrawals.</p>}
+            {withdrawals.length === 0 && <p className="p-6 text-sm text-slate-500 dark:text-slate-400">No withdrawals.</p>}
           </div>
         </section>
       </main>

@@ -81,9 +81,9 @@ export default function Settings() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <header className="bg-white border-b border-slate-200 px-4 py-3 flex justify-between items-center shadow-card">
-        <h1 className="text-lg font-semibold text-slate-900">Settings</h1>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+      <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 px-4 py-3 flex justify-between items-center shadow-card">
+        <h1 className="text-lg font-semibold text-slate-900 dark:text-white">Settings</h1>
         <button type="button" onClick={() => navigate('/')} className="btn-ghost">
           Back to Dashboard
         </button>
@@ -91,21 +91,21 @@ export default function Settings() {
 
       <main className="p-6 max-w-lg mx-auto space-y-6">
         {error && (
-          <div className="rounded-lg bg-red-50 border border-red-100 px-3 py-2 text-sm text-red-700">
+          <div className="rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-100 dark:border-red-800 px-3 py-2 text-sm text-red-700 dark:text-red-300">
             {error}
           </div>
         )}
         {message && (
-          <div className="rounded-lg bg-emerald-50 border border-emerald-100 px-3 py-2 text-sm text-emerald-700">
+          <div className="rounded-lg bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-100 dark:border-emerald-800 px-3 py-2 text-sm text-emerald-700 dark:text-emerald-300">
             {message}
           </div>
         )}
 
         <section className="card p-6">
-          <h2 className="text-base font-semibold text-slate-900 mb-4">Change Password</h2>
+          <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-4">Change Password</h2>
           <form onSubmit={handleChangePassword} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Current Password</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Current Password</label>
               <input
                 type="password"
                 value={currentPassword}
@@ -115,7 +115,7 @@ export default function Settings() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">New Password (min 6)</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">New Password (min 6)</label>
               <input
                 type="password"
                 value={newPassword}
@@ -132,10 +132,10 @@ export default function Settings() {
         </section>
 
         <section className="card p-6">
-          <h2 className="text-base font-semibold text-slate-900 mb-4">Update Profile</h2>
+          <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-4">Update Profile</h2>
           <form onSubmit={handleUpdateProfile} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Name</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Name</label>
               <input
                 type="text"
                 value={name}

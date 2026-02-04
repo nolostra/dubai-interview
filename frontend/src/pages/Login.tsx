@@ -38,13 +38,13 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 p-4">
       <div className="w-full max-w-md card p-8">
-        <h1 className="text-2xl font-bold text-slate-900 mb-1">Agent Panel</h1>
-        <p className="text-sm text-slate-500 mb-6">Sign in to your account</p>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">Agent Panel</h1>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">Sign in to your account</p>
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Email</label>
             <input
               type="email"
               value={email}
@@ -55,7 +55,7 @@ export default function Login() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5">Password</label>
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Password</label>
             <input
               type="password"
               value={password}
@@ -66,7 +66,7 @@ export default function Login() {
             />
           </div>
           {error && (
-            <div className="rounded-lg bg-red-50 border border-red-100 px-3 py-2 text-sm text-red-700">
+            <div className="rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-100 dark:border-red-800 px-3 py-2 text-sm text-red-700 dark:text-red-300">
               {error}
             </div>
           )}
@@ -74,8 +74,8 @@ export default function Login() {
             {loading ? 'Signing in...' : 'Sign in'}
           </button>
         </form>
-        <p className="mt-6 text-center text-sm text-slate-500">
-          <Link to="/forgot-password" className="text-primary-600 hover:text-primary-700 font-medium">
+        <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
+          <Link to="/forgot-password" className="text-primary-500 hover:text-primary-400 font-medium">
             Forgot password?
           </Link>
         </p>

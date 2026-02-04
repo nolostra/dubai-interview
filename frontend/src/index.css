@@ -4,44 +4,44 @@
 
 @layer base {
   body {
-    @apply antialiased text-slate-800;
+    @apply antialiased text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-slate-950;
   }
 }
 
 @layer components {
   .btn-primary {
     @apply bg-primary-600 text-white px-4 py-2 rounded-lg font-medium
-           hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
+           hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-50 dark:focus:ring-offset-slate-900
            disabled:opacity-50 disabled:cursor-not-allowed transition-colors;
   }
   .btn-secondary {
-    @apply bg-white text-slate-700 border border-slate-300 px-4 py-2 rounded-lg font-medium
-           hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
+    @apply bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 px-4 py-2 rounded-lg font-medium
+           hover:bg-slate-50 dark:hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-50 dark:focus:ring-offset-slate-900
            disabled:opacity-50 transition-colors;
   }
   .btn-ghost {
-    @apply text-slate-600 px-3 py-1.5 rounded-md font-medium
-           hover:bg-slate-100 hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1
+    @apply text-slate-600 dark:text-slate-400 px-3 py-1.5 rounded-md font-medium
+           hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-800 dark:hover:text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 focus:ring-offset-slate-50 dark:focus:ring-offset-slate-900
            transition-colors;
   }
   .input-field {
-    @apply w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-800
+    @apply w-full border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2 text-slate-800 dark:text-slate-100 dark:bg-slate-800
            focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent
-           placeholder:text-slate-400;
+           placeholder:text-slate-400 dark:placeholder:text-slate-500;
   }
   .card {
-    @apply bg-white rounded-xl border border-slate-200 shadow-card;
+    @apply bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 shadow-card dark:shadow-none;
   }
   .badge {
     @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
   }
   .badge-success {
-    @apply badge bg-emerald-50 text-emerald-700;
+    @apply badge bg-emerald-50 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300;
   }
   .badge-warning {
-    @apply badge bg-amber-50 text-amber-700;
+    @apply badge bg-amber-50 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300;
   }
   .badge-danger {
-    @apply badge bg-red-50 text-red-700;
+    @apply badge bg-red-50 dark:bg-red-900/40 text-red-700 dark:text-red-300;
   }
 }
