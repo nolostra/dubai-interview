@@ -30,6 +30,9 @@ export default function Dashboard() {
   const [addUserName, setAddUserName] = useState('')
   const [addUserEmail, setAddUserEmail] = useState('')
   const [addUserSubmitting, setAddUserSubmitting] = useState(false)
+  const [actionUserId, setActionUserId] = useState<string | null>(null)
+  const [exportingCsv, setExportingCsv] = useState(false)
+  const [usersLoading, setUsersLoading] = useState(false)
 
   const loadDashboard = async () => {
     const res = await fetchAuth(API.dashboard)
@@ -77,7 +80,8 @@ export default function Dashboard() {
   }, [])
 
   useEffect(() => {
-    loadUsers()
+    setUsersLoading(true)
+    loadUsers().finally(() => setUsersLoading(false))
   }, [usersPage])
 
   const handleLogout = () => {
@@ -140,22 +144,37 @@ export default function Dashboard() {
   }
 
   const handleBlockUnblock = async (userId: string, block: boolean) => {
-    const url = block ? API.userBlock(userId) : API.userUnblock(userId)
-    const res = await fetchAuth(url, { method: 'PATCH' })
-    if (!res.ok) return
-    await loadUsers()
+    setActionUserId(userId)
+    try {
+      const url = block ? API.userBlock(userId) : API.userUnblock(userId)
+      const res = await fetchAuth(url, { method: 'PATCH' })
+      if (!res.ok) {
+        setError('Action failed')
+        return
+      }
+      await loadUsers()
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Action failed')
+    } finally {
+      setActionUserId(null)
+    }
   }
 
   const handleExportCsv = async () => {
-    const res = await fetchAuth(API.commissionHistory({ format: 'csv' }))
-    if (!res.ok) return
-    const blob = await res.blob()
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'commission-history.csv'
-    a.click()
-    URL.revokeObjectURL(url)
+    setExportingCsv(true)
+    try {
+      const res = await fetchAuth(API.commissionHistory({ format: 'csv' }))
+      if (!res.ok) return
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'commission-history.csv'
+      a.click()
+      URL.revokeObjectURL(url)
+    } finally {
+      setExportingCsv(false)
+    }
   }
 
   if (loading) {
@@ -293,7 +312,15 @@ export default function Dashboard() {
               </div>
             </div>
           )}
-          <div className="card overflow-hidden">
+          <div className="card overflow-hidden relative">
+            {usersLoading && (
+              <div className="absolute inset-0 bg-white/60 dark:bg-slate-900/60 z-[1] flex items-center justify-center rounded-xl">
+                <div className="flex flex-col items-center gap-2">
+                  <span className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+                  <span className="text-sm text-slate-600 dark:text-slate-400">Loading users...</span>
+                </div>
+              </div>
+            )}
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead>
@@ -316,12 +343,36 @@ export default function Dashboard() {
                       <td className="p-4 text-slate-500 dark:text-slate-400">{u.createdAt?.slice(0, 10)}</td>
                       <td className="p-4">
                         {u.status === 'ACTIVE' ? (
-                          <button type="button" onClick={() => handleBlockUnblock(u.id, true)} className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium">
-                            Block
+                          <button
+                            type="button"
+                            disabled={actionUserId === u.id}
+                            onClick={() => handleBlockUnblock(u.id, true)}
+                            className="inline-flex items-center gap-1.5 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium disabled:opacity-70 disabled:cursor-not-allowed"
+                          >
+                            {actionUserId === u.id ? (
+                              <>
+                                <span className="inline-block w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                                Blocking...
+                              </>
+                            ) : (
+                              'Block'
+                            )}
                           </button>
                         ) : (
-                          <button type="button" onClick={() => handleBlockUnblock(u.id, false)} className="text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 text-sm font-medium">
-                            Unblock
+                          <button
+                            type="button"
+                            disabled={actionUserId === u.id}
+                            onClick={() => handleBlockUnblock(u.id, false)}
+                            className="inline-flex items-center gap-1.5 text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 text-sm font-medium disabled:opacity-70 disabled:cursor-not-allowed"
+                          >
+                            {actionUserId === u.id ? (
+                              <>
+                                <span className="inline-block w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                                Unblocking...
+                              </>
+                            ) : (
+                              'Unblock'
+                            )}
                           </button>
                         )}
                       </td>
@@ -338,7 +389,7 @@ export default function Dashboard() {
                 <div className="flex gap-2">
                   <button
                     type="button"
-                    disabled={usersPage <= 1}
+                    disabled={usersPage <= 1 || usersLoading}
                     onClick={() => setUsersPage((p) => p - 1)}
                     className="btn-secondary text-sm py-1.5 px-3 disabled:opacity-50"
                   >
@@ -346,7 +397,7 @@ export default function Dashboard() {
                   </button>
                   <button
                     type="button"
-                    disabled={usersPage >= Math.ceil(totalUsers / usersLimit)}
+                    disabled={usersPage >= Math.ceil(totalUsers / usersLimit) || usersLoading}
                     onClick={() => setUsersPage((p) => p + 1)}
                     className="btn-secondary text-sm py-1.5 px-3 disabled:opacity-50"
                   >
@@ -362,8 +413,20 @@ export default function Dashboard() {
         <section>
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">Commission History</h2>
-            <button type="button" onClick={handleExportCsv} className="btn-secondary text-sm py-1.5">
-              Export CSV
+            <button
+              type="button"
+              disabled={exportingCsv}
+              onClick={handleExportCsv}
+              className="btn-secondary text-sm py-1.5 inline-flex items-center gap-1.5 disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {exportingCsv ? (
+                <>
+                  <span className="inline-block w-3.5 h-3.5 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+                  Exporting...
+                </>
+              ) : (
+                'Export CSV'
+              )}
             </button>
           </div>
           <div className="card overflow-hidden">

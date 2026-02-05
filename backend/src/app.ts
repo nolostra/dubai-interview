@@ -1,4 +1,6 @@
 import express, { Request, Response } from 'express';
+import swaggerUi from 'swagger-ui-express';
+import { openApiSpec } from './openapi';
 import { authRoutes } from './modules/auth/auth.routes';
 import { errorHandler } from './middleware/errorHandler';
 import { requestLogger } from './middleware/requestLogger';
@@ -41,8 +43,10 @@ app.get('/health', (_req: Request, res: Response) => {
 });
 
 app.get('/', (_req: Request, res: Response) => {
-  res.json({ service: 'agent-panel-api', health: '/health', api: '/api' });
+  res.json({ service: 'agent-panel-api', health: '/health', api: '/api', docs: '/api-docs' });
 });
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiSpec as object));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/agents', agentRoutes);
