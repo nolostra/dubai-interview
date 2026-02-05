@@ -15,7 +15,7 @@ jest.mock('../../../utils/password');
 jest.mock('../../../utils/jwt');
 jest.mock('../../../utils/logger', () => ({ logger: { info: jest.fn() } }));
 
-const mockPrisma = prisma as jest.Mocked<typeof prisma>;
+const mockPrisma = prisma as any;
 
 describe('authService', () => {
   beforeEach(() => {

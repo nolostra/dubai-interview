@@ -105,8 +105,9 @@ export default function Settings() {
           <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-4">Change Password</h2>
           <form onSubmit={handleChangePassword} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Current Password</label>
+              <label htmlFor="current-password" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Current Password</label>
               <input
+                id="current-password"
                 type="password"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
@@ -115,8 +116,9 @@ export default function Settings() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">New Password (min 6)</label>
+              <label htmlFor="new-password" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">New Password (min 6)</label>
               <input
+                id="new-password"
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
@@ -135,8 +137,9 @@ export default function Settings() {
           <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-4">Update Profile</h2>
           <form onSubmit={handleUpdateProfile} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Name</label>
+              <label htmlFor="profile-name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Name</label>
               <input
+                id="profile-name"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
