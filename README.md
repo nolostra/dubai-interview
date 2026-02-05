@@ -48,14 +48,3 @@ Frontend runs at **http://localhost:5173**.
 
 Use **agent@example.com** / **agent123** (from seed) to log in and open the dashboard.
 
----
-
-## Deploying the frontend to GitHub Pages
-
-**If you see this README on the live site** (`nolostra.github.io/dubai-interview/`), GitHub Pages is still set to deploy from a branch. To serve the **React app** instead:
-
-1. On GitHub, open your repo → **Settings** → **Pages**.
-2. Under **Build and deployment**, set **Source** to **GitHub Actions** (not “Deploy from a branch”).
-3. Push to `main` or run the workflow **Deploy Frontend to GitHub Pages** manually. The workflow builds the frontend and deploys it; the live site will then show the Agent Panel.
-
-The workflow file is `.github/workflows/deploy-frontend-pages.yml`.
